@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Account";
+}
+
+<h2>Account</h2>
+
+<div data-vsplugin="account">
+    <noscript>
+        JavaScript is required to view and purchase on our site.
+        Please <a href="http://www.enable-javascript.com/" target="_blank">enable this feature in your browser.</a>
+    </noscript>
+    <!--[if lte IE 7]>
+        To ensure security and usability, this site requires at least Internet Explorer 8 to function properly.
+        Please view our site in a <a href="http://www.google.com/chrome">different browser</a>,
+        or upgrade to the latest version of <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Internet Explorer</a>.
+    <![endif]-->
+</div>
+
+<script type="text/html" id="vs2-account-allocations-header-custom">
+    <h2>Allocations</h2>
+    <button data-bind="visible: $root.parentProducts().length, click: vinespring.takeFullAllocation">Take Full Allocation</button>
+    <button data-bind="visible: $root.parentProducts().length, click: vinespring.takeFullAllocationWithoutWishes">Take Full Allocation Without Wishes</button>
+</script>
+
+<script type="text/html" id="vs2-account-allocations-custom">
+    <!-- ko if: parentProducts && parentProducts().length -->
+    <span>Only displayed if there are available allocations</span>
+    <!-- /ko -->
+    <!-- ko foreach: parentProducts -->
+    <div class="vs2x-row" class="vs2-allocations-item">
+        <div class="vs2x-s6 vs2x-m4 vs2-allocations-image">
+            <img data-bind="attr:{src:ListImageUrl,title:ProductName}">
+        </div>
+        <div class="vs2x-s6 vs2x-m8 vs2-allocations-details">
+            <h3 data-bind="text: ProductName"></h3>
+            <p data-bind="html: Teaser" class="vs2-allocations-teaser"></p>
+            <!-- ko template: 'vs2-account-allocations-addToCart' --><!-- /ko -->
+        </div>
+    </div>
+    <!-- /ko -->
+    <span>Custom Message</span>
+</script>
+
+@*<script>
+    function takeFullAllocation() {
+        var ids = document.querySelectorAll('.vs2-allocations-details input[name=id]'),
+            quantities = document.querySelectorAll('.vs2-allocations-details select[name=quantity]'),
+            form = document.createElement('form')
+        for (var i = 0; i < ids.length; i++) {
+            form.innerHTML +=
+                "<input name='id' value='{id}'><select name='quantity'><option selected value='{quantity}'></option></select>"
+                .replace('{id}', ids[i].value)
+                .replace('{quantity}', quantities[i].options[quantities[i].options.length - 1].value)
+        }
+        vinespring.addToCart(form)
+        location.href = '/cart' //send the user to checkout
+    }
+    function takeFullAllocationWithoutWishes() {
+        var ids = document.querySelectorAll('.vs2-allocations-details input[name=id]'),
+            selects = document.querySelectorAll('.vs2-allocations-details select[name=quantity]'),
+            form = document.createElement('form'),
+            quantities = []
+
+        for (var s = 0; s < selects.length; s++) {
+            var firstOptgroup = selects[s].querySelector('optgroup')
+            quantities.push(firstOptgroup ? firstOptgroup.children : [])
+        }
+        
+        if (ids.length) {
+            for (var i = 0; i < ids.length; i++) {
+                var lastQuantity = quantities[i] && quantities[i].length && quantities[i][quantities[i].length - 1]
+                if (lastQuantity) {
+                    form.innerHTML +=
+                        "<input name='id' value='{id}'><select name='quantity'><option selected value='{quantity}'></option></select>"
+                        .replace('{id}', ids[i].value)
+                        .replace('{quantity}', quantities[i][quantities[i].length - 1].value)
+                }
+            }
+            vinespring.addToCart(form)
+            location.href = '/cart' //send the user to checkout
+        } else {
+            alert('You currently have no available allocations.');
+        }
+    }
+</script>*@

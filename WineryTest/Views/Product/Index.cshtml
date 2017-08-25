@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Products";
+}
+
+<h2>Products</h2>
+
+<div data-vsplugin="productList" id="billProductList">
+    <noscript>
+        JavaScript is required to view and purchase our products.
+        Please <a href="http://www.enable-javascript.com/" target="_blank">enable this feature in your browser.</a>
+    </noscript>
+    <!--[if lte IE 7]>
+        To ensure security and usability, this site requires at least Internet Explorer 8 to function properly.
+        Please view our site in a <a href="http://www.google.com/chrome">different browser</a>,
+        or upgrade to the latest version of <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Internet Explorer</a>.
+    <![endif]-->
+</div>
+
+<script type="text/html" id="billProductList-custom">
+    <div class="row" data-bind="foreach: parentProducts">
+        <div class="product col-md-3">
+            <!-- ko if: Custom2 == 'twoamigos' -->
+            <div>
+                <a data-bind="attr: { href: $root.detailLink($data) }">Blah blah blah</a>
+            </div>
+            <!-- /ko -->
+            <!-- ko ifnot: Custom2 == 'twoamigos' -->
+            <div>
+                <a data-bind="attr: { href: $root.detailLink($data) }"><img data-bind="attr: { alt: Title, src: ListImageUrl }" /></a>
+            </div>
+            <!-- /ko -->
+            <div>
+                <a data-bind="attr: { href: $root.detailLink($data) }, text: Title"></a>
+                <div data-bind="template: 'vs2-productList-addToCart-default'"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
+@section scripts {
+    <script type="text/javascript">
+        function customSubmit(form) {
+            vinespring.addToCart({ id: [{ value: form.id.value }], quantity: [{ value: form.quantity.value }] });
+            return false;
+        }
+        function availableSubProducts(subProducts) {
+            var available = [];
+            for (var i = 0; i < subProducts.length; i++) {
+                var product = subProducts[i];
+                if (product.AllowOrder && !product.SoldOut && !product.IsAllocated) {
+                    available.push(product);
+                }
+            }
+            return available;
+        }
+        window.toPropArray = function (obj) {
+            var returnArray = [];
+            for (var k in obj) {
+                returnArray.push({ key: k, value: obj[k] });
+            }
+            return returnArray;
+        }
+    </script>
+}

@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Detail</h2>
+
+<div data-vsplugin="productDetail" id="bill-products">
+    <noscript>
+        JavaScript is required to view and purchase our products.
+        Please <a href="http://www.enable-javascript.com/" target="_blank">enable this feature in your browser.</a>
+    </noscript>
+    <!--[if lte IE 7]>
+        To ensure security and usability, this site requires at least Internet Explorer 8 to function properly.
+        Please view our site in a <a href="http://www.google.com/chrome">different browser</a>,
+        or upgrade to the latest version of <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Internet Explorer</a>.
+    <![endif]-->
+</div>
+
+<script type="text/html" id="bill-products-custom">
+    <div data-bind="with: product">
+        <!--ko if: Custom1 == 'Shirt' -->
+        <form onsubmit="return customSubmit(this)">
+            <select name="id" data-bind="options: availableSubProducts($root.products()), optionsText: 'Title', optionsValue: 'Id'"></select>
+            <input type="text" name="quantity" value="1">
+            <button>Add to cart</button>
+        </form>
+        <!-- /ko -->
+        <!--ko ifnot: Custom1 == 'Shirt' -->
+        <div data-bind="template: 'vs2-productList-addToCart-default'"></div>
+        <!-- /ko -->
+    </div>
+</script>
+
+@section scripts {
+<script type="text/javascript">  
+    function customSubmit(form) {
+        vinespring.addToCart({ id: [{ value: form.id.value }], quantity: [{ value: form.quantity.value }] });
+        return false;
+    }
+    function availableSubProducts(subProducts) {
+        var available = [];
+        for (var i = 0; i < subProducts.length; i++) {
+            var product = subProducts[i];
+            if (product.AllowOrder && !product.SoldOut && !product.IsAllocated) {
+                available.push(product);
+            }
+        }
+        return available;
+    }
+    
+    window.toPropArray = function (obj) {
+        var returnArray = [];
+        for (var k in obj) {
+            returnArray.push({ key: k, value: obj[k] });
+        }
+        return returnArray;
+    }
+</script>
+}

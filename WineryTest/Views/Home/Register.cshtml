@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+
+<div data-vsplugin="registration">
+    <noscript>
+        JavaScript is required to view and purchase our products. Please enable this feature in your browser before continuing.
+    </noscript>
+    <!--[if lte IE 7]>
+        To ensure security and usability, this site requires at least Internet Explorer 8 to function properly.
+        Please view our site in a <a href="http://www.google.com/chrome">different browser</a>,
+        or upgrade to the latest version of <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Internet Explorer</a>.
+    <![endif]-->
+</div>
+
+<script type="text/html" id="vs2-registration-form-custom">
+
+    <!--ko template: 'vs2-registration-general'--><!--/ko-->
+    @*<!--ko template: 'vs2-registration-billing'--><!--/ko-->
+    <!--ko template: 'vs2-registration-shipping'--><!--/ko-->*@
+    <!--ko template: 'vs2-registration-message'--><!--/ko-->
+
+    <fieldset id="custom-fields">
+        <legend>Custom Fields</legend>
+        <label>
+            <span>Phone</span>
+            <input id="phone" type="tel" pattern="\d{3}-\d{3}-\d{4}$" placeholder="123-456-7890" name="Phone" title="Please enter a phone number" required />
+        </label>
+        <label>
+            <span>Custom1</span>
+            <input name="Custom1" />
+        </label>
+        <label>
+            <span>Custom2</span>
+            <input name="Custom2" />
+        </label>
+    </fieldset>
+
+    <!--ko template: 'vs2-registration-buttons'--><!--/ko-->
+
+</script>
+
+@section scripts {
+    <script type="text/javascript">
+        //window.vinespringReady = function (config) {
+        //    console.log('Vinespring ready called.')
+        //    //setTimeout(function () {
+        //    //    jQuery(function ($) {
+        //    //        console.log('Mask result is', $("#phone").mask("999-999-9999", { placeholder: " " }));
+        //    //    });
+        //    //    console.log('Should be masked');
+        //    //}, 1000);
+        //    //return true;
+        //};
+        // create an observer instance
+        var target = document.getElementById('container');
+        console.log('Target node is', target);
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                mutation.addedNodes.forEach(function (node) {
+                    if (node.id === 'custom-fields') {
+                        jQuery(function ($) {
+                            console.log('Mask result is', $("#phone").mask("999-999-9999", { placeholder: " " }));
+                        });
+                        console.log('Should be masked');
+                    }
+                })
+            });
+        });
+        observer.observe(target, { childList: true, subtree: true, characterData: true });
+        console.log('Observing.')
+    </script>
+}

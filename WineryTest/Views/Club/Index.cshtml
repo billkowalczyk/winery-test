@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Clubs";
+}
+
+<h2>Clubs</h2>
+
+[Club Name]<br />
+@Html.ActionLink("Sign up for [Club Name]!", "ClubSignup", new { club = "[clubId]" })<br />
+
+[Club Name]<br />
+@Html.ActionLink("Sign up for [Club Name]", "ClubSignup", new { club = "[clubId]" })

@@ -1,0 +1,22 @@
+#topMostClipElementContainer > div.comment_list {
+	height: 23px !important;
+	padding: 2px !important;
+}
+
+#topMostClipElementContainer > div.comment_list::before {
+	content: " //";
+	margin-left: 15px;
+}
+
+#topMostClipElementContainer > div.comment_list > div.groupBoxDialog {
+	display: inline-flex !important;
+    padding: 2px !important;
+	position: relative !important;
+	margin-left: 2px !important;
+	margin-top: 2px !important;
+}
+
+#topMostClipElementContainer > div.comment_list .defaultComment {
+	font-size: 12px;
+	color: green;
+}
